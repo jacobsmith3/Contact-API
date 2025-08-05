@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # Your Node.js application
+  app:
+    build: .
+    ports:
+      - "5001:5001"
+    depends_on:
+      - mongodb
+    environment:
+      - NODE_ENV=development
+      - PORT=5001
+      - MONGODB_URI=mongodb://mongodb:27017/contacts_db
+    volumes:
+      # Mount your source code for development (optional - for live reloading)
+      - .:/app
+      - /app/node_modules
+    restart: unless-stopped
+
+  # MongoDB database
+  mongodb:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password123
+      - MONGO_INITDB_DATABASE=contacts_db
+    volumes:
+      # Persist database data
+      - mongodb_data:/data/db
+      # Optional: Add initialization scripts
+      #- ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    restart: unless-stopped
+
+# Named volumes for data persistence
+volumes:
+  mongodb_data:
+
+# Optional: Define custom networks
+networks:
+  default:
+    name: contacts_network
