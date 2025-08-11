@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const express = require("express");
 const { registerUser, loginUser, currentUser} = require("../controllers/userController");
 const validateToken = require("../middleware/validateToken");
@@ -11,18 +10,4 @@ router.post("/login", loginUser);
 
 router.get("/current", validateToken, currentUser);
 
-=======
-const express = require("express");
-const { registerUser, loginUser, currentUser} = require("../controllers/userController");
-const validateToken = require("../middleware/validateToken");
-
-const router = express.Router();
-
-router.post("/register", registerUser);
-
-router.post("/login", loginUser);
-
-router.get("/current", validateToken, currentUser);
-
->>>>>>> cdf2ca0 (initial Commit)
 module.exports = router;
